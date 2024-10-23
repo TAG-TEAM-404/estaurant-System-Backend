@@ -21,6 +21,18 @@ return [
         Sanctum::currentApplicationUrlWithPort()
     ))),
 
+
+//     'stateful' => explode(',', env(
+//     'SANCTUM_STATEFUL_DOMAINS',
+//     'localhost,127.0.0.1'
+// )),
+
+
+    'api' => [
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        'throttle:api',
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+   ],
     /*
     |--------------------------------------------------------------------------
     | Sanctum Guards
