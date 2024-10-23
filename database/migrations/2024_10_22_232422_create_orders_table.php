@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->timestamp('order_date');
             $table->integer('total_amount');  
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
