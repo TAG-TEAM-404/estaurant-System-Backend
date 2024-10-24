@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
@@ -17,11 +19,11 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+
+        public function store(StoreCategoryRequest $request)
     {
-        $request->validate(['name' => 'required']);
         try {
-            $category = Category::create($request->all());
+            $category = Category::create($request->validated());
             return response()->json([
                 'data' => new CategoryResource($category),
                 'message' => 'Category created successfully',
@@ -31,19 +33,10 @@ class CategoryController extends Controller
         }
     }
 
-    public function show(Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        return response()->json([
-            'data' => new CategoryResource($category),
-            'message' => 'Category retrieved successfully',
-        ], 200);
-    }
-
-    public function update(Request $request, Category $category)
-    {
-        $request->validate(['name' => 'required']);
         try {
-            $category->update($request->all());
+            $category->update($request->validated());
             return response()->json([
                 'data' => new CategoryResource($category),
                 'message' => 'Category updated successfully',
@@ -51,6 +44,14 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to update category'], 500);
         }
+    }
+
+    public function show(Category $category)
+    {
+        return response()->json([
+            'data' => new CategoryResource($category),
+            'message' => 'Category retrieved successfully',
+        ], 200);
     }
 
     public function destroy(Category $category)

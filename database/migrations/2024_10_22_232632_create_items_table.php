@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('price');
             $table->enum('status',[ 'available','unavailable']);
+            $table->string('image')->nullable();
         });
     }
 
