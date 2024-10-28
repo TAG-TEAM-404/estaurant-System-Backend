@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['order_date','total_amount','user_id','table_id'];
+    public $timestamps = false;
+    protected $fillable = ['order_date','total_amount','user_id','table_id' , 'type'];
     public function tables(){
         return $this->belongsTo(Table::class);
     }
@@ -23,8 +24,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    // An order can have many menu items through the pivot table
+    public function takes()
+    {
+        return $this->hasMany(Takes::class);
+    }
     public function take()
     {
         return $this->belongsToMany(Item::class, 'takes')
